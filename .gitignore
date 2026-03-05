@@ -205,3 +205,38 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Django-specific files
+*.log
+*.pot
+*.pyc
+website/static/website/*.css
+website/static/website/*.css.map
+static/css/*.css
+static/css/*.css.map
+__pycache__/
+local_settings.py
+db.sqlite3
+
+# Virtual Environment
+.env
+venv/
+env/
+
+# PyCharm-specific files
+.idea/
+
+# Other files
+*.json
+*.swp
+*.*~
+.DS_Store
+Thumbs.db
+.coverage
+*.egg-info
+dist
+build
+media/
+
+*/migrations/*.py
+!*/migrations/__init__.py

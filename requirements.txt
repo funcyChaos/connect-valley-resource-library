@@ -1,0 +1,8 @@
+asgiref==3.11.1
+Django==6.0.3
+django-modeltranslation==0.20.2
+django-phonenumber-field==8.4.0
+phonenumberslite==9.0.25
+python-decouple==3.8
+sqlparse==0.5.5
+typing_extensions==4.15.0
