@@ -1,19 +1,20 @@
-from pathlib    import Path
-from decouple   import config
+from pathlib            import Path
+from decouple           import config
+from django.conf.locale import LANG_INFO
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+LANG_INFO.update({
+    'hmn': {
+        'bidi': False,
+        'code': 'hmn',
+        'name': 'Hmong',
+        'name_local': 'Hmong',
+    },
+})
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
+BASE_DIR        = Path(__file__).resolve().parent.parent
 SECRET_KEY      = config('SECRET_KEY')
 DEBUG           = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS   = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',')])
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,11 +23,36 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'modeltranslation',
+    'mapwidgets',
     'core',
 ]
 
 PHONENUMBER_DEFAULT_REGION  = "US"
+MAP_WIDGETS = {
+    "GoogleMap": {
+        "apiKey": config('GOOGLE_MAP_API_KEY'),
+        "CDNURLParams": {
+            "language": "en",
+            "libraries": "places,marker",
+            "loading": "defer",
+            "v": "quarterly",
+        },
+        "PointField": {
+            "interactive": {
+                "mapOptions": {
+                    "zoom": 12,
+                    "scrollwheel": False,
+                    "streetViewControl": True,
+                },
+                "GooglePlaceAutocompleteOptions": {},
+                "mapCenterLocationName": "Fresno, CA, USA",
+                "markerFitZoom": 14,
+            },
+        },
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,11 +88,22 @@ WSGI_APPLICATION = 'project_resource_library.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+		'ENGINE': 		'django.contrib.gis.db.backends.postgis',
+		'NAME': 		'cvlibrary',
+		'USER': 		'cvlibraryuser',
+		'PASSWORD': 	config('DATABASE_PASS'),
+		'HOST': 		'localhost',
+		'PORT': 		'5432',
+	}
 }
 
 
@@ -96,6 +133,8 @@ LANGUAGE_CODE   = 'en-us'
 LANGUAGES       = [
     ('en', 'English'),
     ('es', 'Spanish'),
+    ('pa', 'Punjabi'),
+    ('hmn', 'Hmong'),
 ]
 TIME_ZONE       = 'America/Los_Angeles'
 USE_I18N        = True

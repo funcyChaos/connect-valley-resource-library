@@ -1,0 +1,16 @@
+.pull-right{
+    float: none !important;
+}
+
+.mw-header .mw-btn,.mw-coordinates-wrap{
+    display: none !important;
+}
+.mw-header .mw-adress-input-wrap{
+    width: 100% !important;
+}
+/* .mw-header{
+} */
+
+.gm-style .transit-container{
+    color: black;
+}
